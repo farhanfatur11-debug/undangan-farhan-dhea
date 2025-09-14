@@ -323,8 +323,19 @@
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Inisialisasi Firebase (menggunakan variabel global dari lingkungan Canvas)
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        // LANGKAH 1: Salin Konfigurasi Firebase Anda dan tempel di bawah ini
+        const firebaseConfigFromUser = {
+            apiKey: "AIzaSyDeUFtUt4YYMASnOmXhFTbhPbZVLkUHnCw",
+            authDomain: "undangan-farhan-dhea.firebaseapp.com",
+            projectId: "undangan-farhan-dhea",
+            storageBucket: "undangan-farhan-dhea.appspot.com",
+            messagingSenderId: "8577993659",
+            appId: "1:8577993659:web:af79c00d5d766adc86d29e"
+        };
+        // =================================================================
+
+        // Inisialisasi Firebase (menggunakan variabel global dari lingkungan Canvas, atau milik Anda jika di luar Canvas)
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : firebaseConfigFromUser;
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         
         const app = initializeApp(firebaseConfig);
@@ -514,4 +525,6 @@
     </script>
 </body>
 </html>
+
+
 
