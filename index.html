@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Wedding of Farhan & Dhea</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Taviraj:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        /* Palet Warna & Font Kustom */
+        :root {
+            --bg-color: #F8F5F2; /* Coklat muda krem */
+            --primary-green: #2E3D2F; /* Hijau tua hutan */
+            --accent-gold: #C5A56D; /* Emas Klasik */
+            --text-dark: #1c1917; /* Hitam teks */
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            overflow: hidden; /* Mencegah scroll sebelum modal dibuka */
+        }
+        .font-serif-display {
+            font-family: 'Taviraj', serif;
+        }
+        /* Latar belakang dengan pola batik Jawa yang lebih detail */
+        .batik-bg {
+            background-color: var(--bg-color);
+            background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232E3D2F' fill-opacity='0.04'%3E%3Cpath d='M0 0h40v40H0zM40 40h40v40H40z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        /* Animasi fade-in saat scroll */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Animasi putar untuk tombol musik */
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+          animation: spin 4s linear infinite;
+        }
+    </style>
+</head>
+<body class="text-stone-900">
+
+    <!-- Modal "Buka Undangan" -->
+    <div id="invitation-modal" class="fixed inset-0 bg-cover bg-center flex flex-col justify-center items-center z-50 transition-opacity duration-1000" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://placehold.co/800x1200/2E3D2F/FFFFFF?text=F+%26+D&font=taviraj');">
+        <div class="text-center text-white p-8">
+            <p class="font-serif-display text-lg tracking-widest">The Wedding Of</p>
+            <h1 class="font-serif-display text-6xl md:text-7xl my-4">Farhan & Dhea</h1>
+            <p class="mb-8">Kepada Yth. Bapak/Ibu/Saudara/i</p>
+            <p id="guest-name" class="font-bold text-xl mb-8">Tamu Undangan</p>
+            <button id="open-invitation-btn" class="bg-[--accent-gold] text-[--primary-green] font-bold py-3 px-8 rounded-lg hover:bg-opacity-80 transition duration-300 shadow-lg flex items-center justify-center mx-auto">
+                <i data-feather="mail" class="inline-block mr-2"></i> Buka Undangan
+            </button>
+        </div>
+    </div>
+
+    <!-- Konten Utama (awalnya tersembunyi) -->
+    <div id="main-content" class="hidden">
+        <!-- Container Utama -->
+        <div class="max-w-xl mx-auto bg-[--bg-color] shadow-2xl batik-bg">
+            <!-- Bagian Pembuka (Hero Section) -->
+            <header class="h-screen flex flex-col justify-center items-center text-center p-8 bg-cover bg-center relative" style="background-image: linear-gradient(to top, rgba(46,61,47,0.8), rgba(0,0,0,0.2)), url('https://placehold.co/800x1200/2E3D2F/FFFFFF?text=F+%26+D&font=taviraj');">
+                <div class="text-white z-10">
+                    <p class="font-serif-display text-lg tracking-widest">UNDANGAN PERNIKAHAN</p>
+                    <h1 class="font-serif-display text-6xl md:text-7xl my-4">Farhan & Dhea</h1>
+                    <p class="font-semibold text-lg">14 DESEMBER 2025</p>
+                </div>
+                <img src="https://svgshare.com/i/18cT.svg" alt="Gunungan Wayang" class="absolute bottom-16 w-24 h-24 opacity-80 z-10">
+                <div class="absolute bottom-10 animate-bounce z-10">
+                    <i data-feather="arrow-down" class="text-white w-8 h-8"></i>
+                </div>
+                <!-- Latar Gebyok -->
+                <div class="absolute inset-0 bg-no-repeat bg-center bg-contain opacity-10" style="background-image: url('https://svgshare.com/i/18e3.svg');"></div>
+            </header>
+
+            <main class="text-center">
+                <!-- Ayat Suci / Salam Pembuka -->
+                <section class="py-20 px-8 fade-in-section relative overflow-hidden">
+                    <!-- Ornamen Gebyok -->
+                    <img src="https://svgshare.com/i/18dZ.svg" class="absolute top-0 left-0 w-24 h-24 opacity-30" alt="ornamen">
+                    <img src="https://svgshare.com/i/18dZ.svg" class="absolute bottom-0 right-0 w-24 h-24 opacity-30 transform -scale-x-100 -scale-y-100" alt="ornamen">
+                    
+                    <p class="font-serif-display text-2xl italic mb-4" style="color: var(--accent-gold);">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</p>
+                    <p class="max-w-md mx-auto text-sm leading-relaxed text-stone-700">
+                        "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya diantaramu rasa kasih dan sayang. Sesungguhnya pada yang demikian itu benar-benar terdapat tanda-tanda bagi kaum yang berfikir."
+                    </p>
+                    <p class="mt-4 font-semibold text-stone-800">(QS. Ar-Rum: 21)</p>
+                </section>
+
+                <!-- Nama Orang Tua & Mempelai -->
+                <section class="py-20 px-8 bg-[--primary-green]/5 fade-in-section">
+                    <h2 class="font-serif-display text-5xl mb-2" style="color: var(--primary-green);">Mempelai</h2>
+                    <p class="text-stone-600 mb-12 max-w-md mx-auto">Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud menyelenggarakan pernikahan putra-putri kami:</p>
+                    
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
+                        <!-- Mempelai Pria -->
+                        <div class="w-full">
+                            <img src="https://placehold.co/400x400/D4C4A8/333333?text=Farhan&font=taviraj" alt="Muhamad Farhan Faturrahman" class="w-48 h-48 rounded-full mx-auto object-cover shadow-lg border-4 border-[--accent-gold]/50">
+                            <h3 class="font-serif-display text-3xl mt-6" style="color: var(--primary-green);">Muhamad Farhan Faturrahman</h3>
+                            <p class="mt-2 text-stone-600">Putra dari:</p>
+                            <p class="font-semibold text-stone-700">Bapak [Nama Ayah Pria] & Ibu [Nama Ibu Pria]</p>
+                        </div>
+
+                        <!-- Aksara Jawa -->
+                        <div class="w-20 h-20 flex items-center justify-center">
+                            <img src="https://svgshare.com/i/18eR.svg" alt="Aksara Jawa Inisial" class="w-full h-full">
+                        </div>
+
+                        <!-- Mempelai Wanita -->
+                        <div class="w-full">
+                            <img src="https://placehold.co/400x400/D4C4A8/333333?text=Dhea&font=taviraj" alt="Dhea Fitrianna" class="w-48 h-48 rounded-full mx-auto object-cover shadow-lg border-4 border-[--accent-gold]/50">
+                            <h3 class="font-serif-display text-3xl mt-6" style="color: var(--primary-green);">Dhea Fitrianna</h3>
+                            <p class="mt-2 text-stone-600">Putri dari:</p>
+                            <p class="font-semibold text-stone-700">Bapak [Nama Ayah Wanita] & Ibu [Nama Ibu Wanita]</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Detail Acara -->
+                <section class="py-20 px-8 fade-in-section">
+                    <h2 class="font-serif-display text-5xl mb-12" style="color: var(--primary-green);">Waktu & Tempat</h2>
+
+                    <div class="border-2 border-[--accent-gold]/30 rounded-lg p-8 max-w-md mx-auto shadow-lg bg-[--bg-color] relative overflow-hidden">
+                        <!-- Ornamen sudut -->
+                        <img src="https://svgshare.com/i/18dZ.svg" class="absolute -top-1 -left-1 w-16 h-16 opacity-20" alt="ornamen">
+                        <img src="https://svgshare.com/i/18dZ.svg" class="absolute -bottom-1 -right-1 w-16 h-16 opacity-20 transform -scale-x-100 -scale-y-100" alt="ornamen">
+                        <div class="mb-8">
+                            <h3 class="font-serif-display text-3xl text-stone-800">Akad Nikah & Resepsi</h3>
+                            <p class="text-stone-500">Insya Allah akan diselenggarakan pada:</p>
+                        </div>
+                        
+                        <div class="flex items-center justify-center gap-6 text-lg">
+                            <div class="text-right">
+                                <p class="font-bold">MINGGU</p>
+                                <p class="text-5xl font-serif-display" style="color: var(--primary-green);">14</p>
+                                <p class="font-bold">PAGI</p>
+                            </div>
+                            <div class="h-24 w-px bg-[--accent-gold]/30"></div>
+                            <div class="text-left">
+                                <p class="font-bold">DESEMBER</p>
+                                <p class="text-5xl font-serif-display" style="color: var(--primary-green);">2025</p>
+                                <p class="font-bold">07:00 WIB</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 pt-8 border-t border-[--accent-brown]/20">
+                            <i data-feather="map-pin" class="mx-auto mb-2" style="color: var(--primary-green);"></i>
+                            <p class="font-bold text-stone-800">Masjid Nur Al Iman</p>
+                            <p class="text-sm text-stone-600 mt-1">Jl. Raya Pagedangan Jl. Kp. Cicayur I No.002, Pagedangan, Tangerang, Banten</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Countdown Timer -->
+                    <div id="countdown" class="flex justify-center gap-4 md:gap-8 mt-12" style="color: var(--primary-green);">
+                        <div><div id="days" class="font-serif-display text-4xl">00</div><div class="text-sm">Hari</div></div>
+                        <div><div id="hours" class="font-serif-display text-4xl">00</div><div class="text-sm">Jam</div></div>
+                        <div><div id="minutes" class="font-serif-display text-4xl">00</div><div class="text-sm">Menit</div></div>
+                        <div><div id="seconds" class="font-serif-display text-4xl">00</div><div class="text-sm">Detik</div></div>
+                    </div>
+                </section>
+
+                <!-- Peta/Alamat -->
+                <section class="py-20 px-8 bg-[--primary-green]/5 fade-in-section">
+                    <h2 class="font-serif-display text-5xl mb-8" style="color: var(--primary-green);">Lokasi Acara</h2>
+                    <div class="aspect-video rounded-lg overflow-hidden border-4 border-[--accent-brown]/30 shadow-lg max-w-md mx-auto">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.877884144369!2d106.6086760747496!3d-6.279619193707253!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69fb237e1b5239%3A0x6b876a1d005f745d!2sMasjid%20Nur%20Al%20iman!5e0!3m2!1sen!2sid!4v1663045265430!5m2!1sen!2sid" 
+                            style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="w-full h-full">
+                        </iframe>
+                    </div>
+                    <a href="https://maps.app.goo.gl/3468r24Y7hQp1yWp7" target="_blank" class="inline-flex items-center mt-8 bg-[--primary-green] text-white font-bold py-3 px-6 rounded-lg hover:bg-opacity-90 transition duration-300">
+                        <i data-feather="navigation" class="mr-2"></i> Buka di Google Maps
+                    </a>
+                </section>
+
+                <!-- Galeri Foto -->
+                <section id="gallery" class="py-20 px-8 fade-in-section">
+                    <h2 class="font-serif-display text-5xl mb-12" style="color: var(--primary-green);">Momen Bahagia</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 max-w-md mx-auto">
+                        <div class="aspect-square rounded-lg overflow-hidden shadow-lg">
+                            <img src="https://placehold.co/400x400/855B3B/FFFFFF?text=Prewed+1" alt="Foto Prewedding 1" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500">
+                        </div>
+                         <div class="aspect-square rounded-lg overflow-hidden shadow-lg">
+                            <img src="https://placehold.co/400x400/2E3D2F/FFFFFF?text=Prewed+2" alt="Foto Prewedding 2" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500">
+                        </div>
+                         <div class="aspect-square rounded-lg overflow-hidden shadow-lg">
+                            <img src="https://placehold.co/400x400/D4C4A8/333333?text=Prewed+3" alt="Foto Prewedding 3" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500">
+                        </div>
+                         <div class="aspect-square rounded-lg overflow-hidden shadow-lg">
+                            <img src="https://placehold.co/400x400/2E3D2F/FFFFFF?text=Prewed+4" alt="Foto Prewedding 4" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500">
+                        </div>
+                         <div class="aspect-square rounded-lg overflow-hidden shadow-lg">
+                            <img src="https://placehold.co/400x400/D4C4A8/333333?text=Prewed+5" alt="Foto Prewedding 5" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500">
+                        </div>
+                         <div class="aspect-square rounded-lg overflow-hidden shadow-lg">
+                            <img src="https://placehold.co/400x400/855B3B/FFFFFF?text=Prewed+6" alt="Foto Prewedding 6" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Buku Tamu & Ucapan Doa -->
+                <section id="guestbook" class="py-20 px-8 bg-[--primary-green]/5 fade-in-section">
+                    <h2 class="font-serif-display text-5xl mb-4" style="color: var(--primary-green);">Buku Tamu</h2>
+                    <p class="text-stone-600 mb-12 max-w-md mx-auto">Kirimkan doa dan ucapan terbaik Anda untuk kami.</p>
+
+                    <form id="wish-form" class="max-w-md mx-auto text-left bg-white p-6 rounded-lg shadow-lg">
+                        <div class="mb-4">
+                            <label for="name" class="block text-stone-700 font-semibold mb-2">Nama</label>
+                            <input type="text" id="name" name="name" class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[--accent-gold]/50" required placeholder="Nama Anda">
+                        </div>
+                        <div class="mb-4">
+                            <label for="message" class="block text-stone-700 font-semibold mb-2">Ucapan & Doa</label>
+                            <textarea id="message" name="message" rows="4" class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[--accent-gold]/50" required placeholder="Tulis ucapan Anda di sini..."></textarea>
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-stone-700 font-semibold mb-2">Konfirmasi Kehadiran</label>
+                            <div class="flex items-center gap-4">
+                                <label class="flex items-center"><input type="radio" name="rsvp" value="Hadir" class="mr-2 accent-[--primary-green]" checked> Hadir</label>
+                                <label class="flex items-center"><input type="radio" name="rsvp" value="Tidak Hadir" class="mr-2 accent-[--primary-green]"> Tidak Hadir</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-[--accent-gold] text-[--primary-green] font-bold py-3 px-6 rounded-lg hover:bg-opacity-90 transition duration-300 flex items-center justify-center">
+                            <i data-feather="send" class="mr-2"></i> Kirim Ucapan
+                        </button>
+                    </form>
+
+                    <div id="wishes-container" class="max-w-md mx-auto mt-12 text-left space-y-4">
+                        <!-- Contoh Ucapan -->
+                        <div class="bg-white p-4 rounded-lg shadow animate-fade-in">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-bold text-stone-800">Sahabat Lama</h4>
+                                <span class="text-xs font-semibold bg-green-100 text-green-800 px-2 py-1 rounded-full">Hadir</span>
+                            </div>
+                            <p class="text-stone-600 mt-2 text-sm">Selamat ya Farhan & Dhea! Semoga menjadi keluarga yang sakinah, mawaddah, warahmah. Lancar sampai hari H!</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Penutup -->
+                <section class="py-20 px-8 text-center fade-in-section">
+                    <p class="text-stone-700 max-w-md mx-auto mb-6">
+                        Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu kepada kedua mempelai.
+                    </p>
+                    <p class="font-serif-display text-2xl mb-2 text-stone-800">Terima Kasih</p>
+                    <p class="font-serif-display text-xl mb-12 text-stone-600 italic">Wassalamu'alaikum Warahmatullahi Wabarakatuh</p>
+
+                    <img src="https://svgshare.com/i/18eS.svg" alt="Wayang Rama Shinta" class="w-48 mx-auto mb-8 opacity-80">
+
+                    <h2 class="font-serif-display text-5xl" style="color: var(--primary-green);">Farhan & Dhea</h2>
+                </section>
+                
+                <!-- Nama Keluarga -->
+                <footer class="py-12 px-8 bg-stone-800 text-white text-center">
+                    <p class="mb-4">Turut berbahagia,</p>
+                    <p class="font-semibold">Keluarga Besar dari</p>
+                    <p class="font-serif-display text-xl mt-1">Bapak [Nama Ayah Pria] & Ibu [Nama Ibu Pria]</p>
+                    <p class="font-serif-display text-xl mt-1">&</p>
+                    <p class="font-serif-display text-xl mt-1">Bapak [Nama Ayah Wanita] & Ibu [Nama Ibu Wanita]</p>
+                </footer>
+            </main>
+        </div>
+    </div>
+
+    <!-- Audio Player -->
+    <audio id="background-music" loop>
+        <!-- Ganti src dengan link musik Anda. Contoh: Gamelan Jawa -->
+        <!-- <source src="musik-gamelan.mp3" type="audio/mpeg"> -->
+    </audio>
+
+    <!-- Tombol Kontrol Musik -->
+    <button id="music-control" class="hidden fixed bottom-5 right-5 z-40 bg-[--accent-gold]/80 text-white w-12 h-12 rounded-full justify-center items-center shadow-lg backdrop-blur-sm transition-all duration-300">
+        <i id="music-icon" data-feather="music"></i>
+    </button>
+
+    <script>
+        // Inisialisasi Feather Icons
+        feather.replace();
+
+        // Mengambil elemen-elemen dari DOM
+        const modal = document.getElementById('invitation-modal');
+        const openBtn = document.getElementById('open-invitation-btn');
+        const mainContent = document.getElementById('main-content');
+        const music = document.getElementById('background-music');
+        const musicControl = document.getElementById('music-control');
+        const musicIcon = document.getElementById('music-icon');
+        let isPlaying = false;
+
+        // Mengambil nama tamu dari URL (contoh: ?to=NamaTamu)
+        const urlParams = new URLSearchParams(window.location.search);
+        const guestName = urlParams.get('to');
+        if (guestName) {
+            document.getElementById('guest-name').innerText = guestName.replace(/\+/g, ' ');
+        }
+
+        // Event listener untuk tombol "Buka Undangan"
+        openBtn.addEventListener('click', () => {
+            modal.classList.add('opacity-0');
+            modal.addEventListener('transitionend', () => modal.style.display = 'none', { once: true });
+            
+            mainContent.classList.remove('hidden');
+            document.body.style.overflow = 'auto';
+            musicControl.classList.replace('hidden','flex');
+
+            music.play().then(() => {
+                isPlaying = true;
+                musicControl.classList.add('animate-spin-slow');
+                musicIcon.innerHTML = feather.icons['music'].toSvg();
+            }).catch(e => {
+                console.info("Autoplay musik diblokir oleh peramban. Menunggu interaksi pengguna.");
+                isPlaying = false;
+                musicIcon.innerHTML = feather.icons['play'].toSvg();
+            });
+        });
+
+        // Event listener untuk tombol kontrol musik
+        musicControl.addEventListener('click', () => {
+            if (isPlaying) {
+                music.pause();
+                musicControl.classList.remove('animate-spin-slow');
+                musicIcon.innerHTML = feather.icons['play'].toSvg();
+            } else {
+                music.play();
+                musicControl.classList.add('animate-spin-slow');
+                musicIcon.innerHTML = feather.icons['music'].toSvg();
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // Logika Buku Tamu
+        const wishForm = document.getElementById('wish-form');
+        const wishesContainer = document.getElementById('wishes-container');
+
+        wishForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Mencegah halaman reload
+
+            const name = this.elements['name'].value;
+            const message = this.elements['message'].value;
+            const rsvp = this.elements['rsvp'].value;
+            
+            // Membuat elemen ucapan baru
+            const wishElement = document.createElement('div');
+            wishElement.className = 'bg-white p-4 rounded-lg shadow transition-all duration-500 opacity-0 transform -translate-y-4';
+            
+            const rsvpBadge = rsvp === 'Hadir'
+                ? `<span class="text-xs font-semibold bg-green-100 text-green-800 px-2 py-1 rounded-full">Hadir</span>`
+                : `<span class="text-xs font-semibold bg-red-100 text-red-800 px-2 py-1 rounded-full">Tidak Hadir</span>`;
+
+            wishElement.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <h4 class="font-bold text-stone-800">${name}</h4>
+                    ${rsvpBadge}
+                </div>
+                <p class="text-stone-600 mt-2 text-sm break-words">${message}</p>
+            `;
+            
+            // Menambahkan ucapan baru ke paling atas
+            wishesContainer.prepend(wishElement);
+
+            // Menambahkan animasi fade-in
+            setTimeout(() => {
+                wishElement.classList.remove('opacity-0', '-translate-y-4');
+            }, 10);
+            
+            // Mereset form
+            this.reset();
+        });
+
+
+        // Logika Countdown Timer
+        const countDownDate = new Date("Dec 14, 2025 07:00:00").getTime();
+        const countdownFunction = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countDownDate - now;
+
+            if (distance < 0) {
+                clearInterval(countdownFunction);
+                document.getElementById("countdown").innerHTML = `<div class='text-center w-full font-serif-display text-2xl' style='color: var(--primary-green)'>Acara Telah Berlangsung</div>`;
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days.toString().padStart(2, '0');
+            document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+        }, 1000);
+
+        // Logika Animasi Scroll
+        const sections = document.querySelectorAll('.fade-in-section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        sections.forEach(section => observer.observe(section));
+    </script>
+</body>
+</html>
+
+
+
