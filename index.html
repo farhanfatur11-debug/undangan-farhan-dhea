@@ -16,6 +16,16 @@
     <!-- Feather Icons -->
     <script src="https://unpkg.com/feather-icons"></script>
 
+    <!-- 1. Load Supabase library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- 2. Initialize Supabase client -->
+    <script>
+        const supabaseUrl = "https://cayavtrlfuwwlkdqdfdg.supabase.co";
+        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNheWF2dHJsZnV3d2xrZHFkZmRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc5MTc1NTQsImV4cCI6MjA3MzQ5MzU1NH0.DOb5InqhzkMZKl0cl9zlr6n7t42JojlmtN-1sRL3I04";
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+    </script>
+
     <style>
         /* Palet Warna & Font Kustom */
         :root {
@@ -419,6 +429,67 @@
         const wishesContainer = document.getElementById('wishes-container');
         const wishesCollectionRef = collection(db, `artifacts/${appId}/public/data/wishes`);
 
+        // Load existing wishes on page load
+  document.addEventListener("DOMContentLoaded", async () => {
+    const { data, error } = await supabase
+      .from("wishes")
+      .select("*")
+      .order("created_at", { ascending: true });
+
+    if (error) {
+      console.error("Error fetching wishes:", error);
+      return;
+    }
+
+    data.forEach(addWishToDOM);
+  });
+
+  // Handle new form submission
+  wishForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const message = document.getElementById("message").value.trim();
+    const rsvp = wishForm.rsvp.value;
+
+    if (!name || !message) return;
+
+    const { data, error } = await supabase
+      .from("wishes")
+      .insert([{ name, message, rsvp }])
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Error inserting wish:", error);
+      return;
+    }
+
+    addWishToDOM(data);
+
+    wishForm.reset();
+  });
+
+  // Render wish into HTML
+  function addWishToDOM(wish) {
+    const div = document.createElement("div");
+    div.className = "bg-white p-4 rounded-lg shadow animate-fade-in";
+
+    div.innerHTML = `
+      <div class="flex items-center justify-between">
+        <h4 class="font-bold text-stone-800">${wish.name}</h4>
+        <span class="text-xs font-semibold ${
+          wish.rsvp === "Hadir"
+            ? "bg-green-100 text-green-800"
+            : "bg-red-100 text-red-800"
+        } px-2 py-1 rounded-full">${wish.rsvp}</span>
+      </div>
+      <p class="text-stone-600 mt-2 text-sm">${wish.message}</p>
+    `;
+
+    wishesContainer.prepend(div);
+  }
+
         // Fungsi untuk mengirim ucapan ke Firebase
         wishForm.addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -523,8 +594,72 @@
         // Panggil fungsi otentikasi saat script dimuat
         authenticateUser();
     </script>
+
+    <!-- <script>
+  const form = document.getElementById("wish-form");
+  const wishesContainer = document.getElementById("wishes-container");
+
+  // Load existing wishes on page load
+  document.addEventListener("DOMContentLoaded", async () => {
+    const { data, error } = await supabase
+      .from("wishes")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Error fetching wishes:", error);
+      return;
+    }
+
+    data.forEach(addWishToDOM);
+  });
+
+  // Handle new form submission
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const message = document.getElementById("message").value.trim();
+    const rsvp = form.rsvp.value;
+
+    if (!name || !message) return;
+
+    const { data, error } = await supabase
+      .from("wishes")
+      .insert([{ name, message, rsvp }])
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Error inserting wish:", error);
+      return;
+    }
+
+    addWishToDOM(data);
+
+    form.reset();
+  });
+
+  // Render wish into HTML
+  function addWishToDOM(wish) {
+    const div = document.createElement("div");
+    div.className = "bg-white p-4 rounded-lg shadow animate-fade-in";
+
+    div.innerHTML = `
+      <div class="flex items-center justify-between">
+        <h4 class="font-bold text-stone-800">${wish.name}</h4>
+        <span class="text-xs font-semibold ${
+          wish.rsvp === "Hadir"
+            ? "bg-green-100 text-green-800"
+            : "bg-red-100 text-red-800"
+        } px-2 py-1 rounded-full">${wish.rsvp}</span>
+      </div>
+      <p class="text-stone-600 mt-2 text-sm">${wish.message}</p>
+    `;
+
+    wishesContainer.prepend(div);
+  }
+</script> -->
+
 </body>
 </html>
-
-
-
