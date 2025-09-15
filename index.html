@@ -345,7 +345,7 @@
         // =================================================================
 
         // Inisialisasi Firebase (menggunakan variabel global dari lingkungan Canvas, atau milik Anda jika di luar Canvas)
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : firebaseConfigFromUser;
+        const firebaseConfig = typeof _firebase_config !== 'undefined' ? JSON.parse(_firebase_config) : firebaseConfigFromUser;
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         
         const app = initializeApp(firebaseConfig);
@@ -427,7 +427,7 @@
         // --- LOGIKA BUKU TAMU DENGAN FIREBASE ---
         const wishForm = document.getElementById('wish-form');
         const wishesContainer = document.getElementById('wishes-container');
-        const wishesCollectionRef = collection(db, `artifacts/${appId}/public/data/wishes`);
+        const wishesCollectionRef = collection(db, artifacts/${appId}/public/data/wishes);
 
         // Load existing wishes on page load
   document.addEventListener("DOMContentLoaded", async () => {
@@ -532,8 +532,8 @@
                     wishElement.className = 'bg-white p-4 rounded-lg shadow animate-fade-in';
                     
                     const rsvpBadge = wish.rsvp === 'Hadir'
-                        ? `<span class="text-xs font-semibold bg-green-100 text-green-800 px-2 py-1 rounded-full">Hadir</span>`
-                        : `<span class="text-xs font-semibold bg-red-100 text-red-800 px-2 py-1 rounded-full">Tidak Hadir</span>`;
+                        ? <span class="text-xs font-semibold bg-green-100 text-green-800 px-2 py-1 rounded-full">Hadir</span>
+                        : <span class="text-xs font-semibold bg-red-100 text-red-800 px-2 py-1 rounded-full">Tidak Hadir</span>;
 
                     wishElement.innerHTML = `
                         <div class="flex items-center justify-between">
@@ -563,7 +563,7 @@
 
             if (distance < 0) {
                 clearInterval(countdownFunction);
-                document.getElementById("countdown").innerHTML = `<div class='text-center w-full font-serif-display text-2xl' style='color: var(--primary-green)'>Acara Telah Berlangsung</div>`;
+                document.getElementById("countdown").innerHTML = <div class='text-center w-full font-serif-display text-2xl' style='color: var(--primary-green)'>Acara Telah Berlangsung</div>;
                 return;
             }
 
